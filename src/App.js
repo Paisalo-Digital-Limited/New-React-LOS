@@ -1,6 +1,8 @@
  import { ColorModeContext, useMode } from "./theme";
+ import { redirect, Route ,Routes} from "react-router-dom";
  import { CssBaseline, ThemeProvider } from "@mui/material";  
 import TopBar from "./scenes/global/TopBar";
+import Dashboard from"./scenes/dashboard";
 import LandingPage from "./scenes/LandingPage";
 function App() {
   const [theme, colorMode] = useMode();
@@ -12,8 +14,13 @@ function App() {
   <div className="app">
     <main className="content">
       {/* <TopBar /> */}
-      <LandingPage />
-
+      {/* <Dashboard/> */}
+      
+      <Routes>
+        <Route path="/" element={<LandingPage />}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
+      </Routes>
+     
     </main>
   </div>
 </ThemeProvider>

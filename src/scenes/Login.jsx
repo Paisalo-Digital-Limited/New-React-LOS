@@ -9,6 +9,8 @@ import "../css/Login.css"
 import apiClient from "../network/apiClient.js"
 import LogoImage from "../assets/logo.png";
 
+ 
+  
 const Root = styled.main`
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
@@ -21,7 +23,7 @@ const Root = styled.main`
 `;
 
 const Login = () => {
-    const [email, setEmail] = useState('');
+     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorSignIn, setErrorSignIn] = useState({ email: '', password: '' });
     const [errorSignUp, setErrorSignUp] = useState({ email: '', password: '' });
@@ -34,7 +36,9 @@ const Login = () => {
     };
 
     const handleLogin = (e) => {
+
         e.preventDefault();
+ 
         setErrorSignIn({ email: '', password: '' });
 
         if (!email || !password) {
@@ -170,12 +174,19 @@ const Login = () => {
             password: password,
             errormsg: "string",
             isValidate: true,
-          });
+          },{ requireAuth: false , checkTokenInResponse: false});
           debugger;
           if( response.data.statuscode==200)
           {
+            debugger;
             alert("Login Success: "+response.data.data.tokenDetails.name);
+          //  navigate('/dashboard');
+            localStorage.setItem('authToken', response.data.data.tokenDetails.token);
+            const token = localStorage.getItem("authToken"); // Replace with your token storage logic
 
+            if (token) {
+                    navigate('/dashboard');
+            }
           }else{
             alert("Login Error:"+response.data.message);
 
