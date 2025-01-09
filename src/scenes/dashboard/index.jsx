@@ -1,8 +1,10 @@
 import { ColorModeContext, useMode } from "../../theme";
- 
+import { Suspense } from "react";
+import { Route,Routes } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";  
  import TopBar from "../global/TopBar";
 import Sidebar from "../global/SideBar";
+import role from "../masters/role";
   
 function Dashboard() {
    const [theme, colorMode] = useMode();
@@ -13,11 +15,10 @@ function Dashboard() {
 <ThemeProvider theme={theme}>
     <CssBaseline />
   <div className="app">
-  <Sidebar />
     <main className="content">
     <TopBar/>
 
- 
+    
      
     </main>
   </div>
