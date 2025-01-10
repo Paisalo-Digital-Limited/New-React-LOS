@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -17,6 +17,8 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import image from "../../assets/user_logo.png"
+import { useEffect } from "react";
+import apiClient from "../../network/apiClient";
 import { getStoredUserName ,getStoredDesignation} from "../../shared/utils/userDetails";
 
 
@@ -38,6 +40,39 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     );
   };
   
+  const buildMenuHierarchy = (data) => {
+    debugger;
+    // Initialize a map to store all menu items by their mainid
+    const menuMap = {};
+    const menuHierarchy = [];
+  
+    // Step 1: Create a map of all menu items
+    data.forEach((menu) => {
+      menu.subMenu = []; // Initialize subMenu array for each item
+      menuMap[menu.mainid] = menu; // Map menu items by their mainid
+    });
+    debugger;
+  
+    // Step 2: Build the hierarchy
+    data.forEach((menu) => {
+      if (menu.parentId === 0) {
+        // Add root-level menus (parentId === 0) to the hierarchy
+        menuHierarchy.push(menu);
+      } else if (menuMap[menu.parentId]) {
+        // Add to the subMenu array of the parent
+        menuMap[menu.parentId].subMenu.push(menu);
+      }
+    });
+    debugger;
+  
+    return menuHierarchy;
+  };
+
+
+
+  
+
+
   const Sidebar = () => {
     const userName = getStoredUserName();
     const designation = getStoredDesignation();
@@ -45,6 +80,74 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] = useState("Dashboard");
+    const [menuData, setMenuData] = useState([]);
+
+
+    const fetchSideBarList = async () => {
+      debugger;
+      const response = await apiClient.get("/Menu/GetMenuData",{ requireAuth: true , checkTokenInResponse: false});
+      
+      if(response.data.statuscode=== 200){
+        
+       // const hierarchy = buildMenuHierarchy(response.data.data);
+       debugger;
+
+        showSideMenuBar(response.data.data);
+        alert("Success:"+response.data.data);
+      }else{
+        
+        alert("Error:"+response.data.message);
+      }
+
+    };
+
+    const showSideMenuBar = (data) => {
+      
+      const formattedData = data.map((menu, index) => ({
+        mainid: menu.mainid,
+        parentId: menu.parentId,
+        title: menu.title,
+        pageUrl: menu.pageUrl,
+        pageName: menu.pageName,
+        icon: menu.icon,
+        isActive: menu.isActive,
+        isDeleted: menu.isDeleted,
+        totalCount: menu.totalCount,
+      }));
+      
+      const hierarchy = buildMenuHierarchy(formattedData);
+      console.log(hierarchy);
+      setMenuData(hierarchy);
+    }
+  
+   
+    const renderMenuItems = (menus) =>
+      menus.map((menu) =>
+        menu.subMenu && menu.subMenu.length > 0 ? (
+          <SubMenu
+            key={menu.mainid}
+            title={menu.title} // Fallback to title if pageName is empty
+            icon={<PeopleOutlinedIcon />} // Replace with dynamic icons based on menu data
+          >
+            {renderMenuItems(menu.subMenu)}
+          </SubMenu>
+        ) : (
+          <MenuItem
+            key={menu.mainid}
+            icon={<HomeOutlinedIcon />} // Replace with dynamic icons based on menu data
+            onClick={() => console.log(`Navigating to ${menu.pageUrl}`)}
+          >
+            { menu.title} {/* Fallback to title if pageName is empty */}
+            <Link to={'/role' || "#"} />
+          </MenuItem>
+        )
+      );
+    useEffect(() => {
+     
+    fetchSideBarList()}, []);
+
+
+
   
     return (
       <Box
@@ -110,7 +213,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
                 <Box textAlign="center">
                   <Typography
                     variant="h3"
-                    color={colors.grey[200]}
+                    color="#db4f4a"
                     fontWeight="bold"
                     sx={{ m: "10px 0 0 0" }}
                   >
@@ -124,94 +227,19 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
             )}
   
             <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-              <Item
-                title="Dashboard"
-                to="/dashboard"
-                icon={<HomeOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-  
-    
-              <Item
-                title="Role"
-                to="/role"
-                icon={<PeopleOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Contacts Information"
-                to="/contacts"
-                icon={<ContactsOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Invoices Balances"
-                to="/invoices"
-                icon={<ReceiptOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-  
-        
-              <Item
-                title="Profile Form"
-                to="/form"
-                icon={<PersonOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Calendar"
-                to="/calendar"
-                icon={<CalendarTodayOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="FAQ Page"
-                to="/faq"
-                icon={<HelpOutlineOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-  
-          
-              <Item
-                title="Bar Chart"
-                to="/bar"
-                icon={<BarChartOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Pie Chart"
-                to="/pie"
-                icon={<PieChartOutlineOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Line Chart"
-                to="/line"
-                icon={<TimelineOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-              <Item
-                title="Geography Chart"
-                to="/geography"
-                icon={<MapOutlinedIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
+
+            <Menu iconShape="square">
+        {menuData.length > 0 ? renderMenuItems(menuData) : <div>No Menu Items</div>}
+      </Menu>
             </Box>
           </Menu>
         </ProSidebar>
       </Box>
     );
+
+
+    
+     
   };
   
   export default Sidebar;
