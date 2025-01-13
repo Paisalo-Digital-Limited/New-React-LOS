@@ -1,0 +1,17 @@
+import React from 'react';
+import Dashboard from '../../scenes/dashboard';
+import Role from '../../scenes/masters/role';
+ 
+
+function DynamicElement({ elementName }) {
+  switch (elementName) {
+    case "Dashboard":
+      return <Dashboard />;
+    case "Role":
+      return <Role />;
+    default:
+      return <Dashboard />;
+  }
+}
+
+export default DynamicElement;

@@ -9,3 +9,9 @@ export const getStoredDesignation = () => localStorage.getItem('Designation');
 export const storeDesignation = Designation => localStorage.setItem('Designation', Designation);
 
 export const removeStoredDesignation = () => localStorage.removeItem('Designation');
+
+export const getStoredEmail = () => localStorage.getItem('email');
+
+export const storeEmail = mail => localStorage.setItem('email', mail);
+
+export const removeStoredEmail = () => localStorage.removeItem('email');

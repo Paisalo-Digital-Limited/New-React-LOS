@@ -11,3 +11,12 @@ export const storeRefereshToken = token => localStorage.setItem('refereshToken',
 export const removeStoredRefereshToken = () => localStorage.removeItem('refereshToken');
 
 export const SavedToken = localStorage.getItem('authToken');
+
+
+export const getStoredPageName = () => localStorage.getItem('pageName');
+
+export const storePageName = pageName =>{
+    localStorage.setItem('pageName', pageName);
+    window.dispatchEvent(new Event("storage"));
+} ;
+

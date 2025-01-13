@@ -6,22 +6,25 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import { storePageName } from "../../shared/utils/authToken";
+// import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
+// import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+// import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+// import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
+// import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+// import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+// import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
+// import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+// import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import image from "../../assets/user_logo.png"
+
+import image from "../../assets/logo.png"
 import { useEffect } from "react";
 import apiClient from "../../network/apiClient";
-import { getStoredUserName ,getStoredDesignation} from "../../shared/utils/userDetails";
+// import { getStoredUserName ,getStoredDesignation, } from "../../shared/utils/userDetails";
+// import '../../css/SideBar.css'
 
-
+import "../../css/Sidebar.css"
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -74,8 +77,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 
   const Sidebar = () => {
-    const userName = getStoredUserName();
-    const designation = getStoredDesignation();
+    // const userName = getStoredUserName();
+    // const designation = getStoredDesignation();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -84,19 +87,19 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 
     const fetchSideBarList = async () => {
-      debugger;
+      // debugger;
       const response = await apiClient.get("/Menu/GetMenuData",{ requireAuth: true , checkTokenInResponse: false});
       
       if(response.data.statuscode=== 200){
         
        // const hierarchy = buildMenuHierarchy(response.data.data);
-       debugger;
+      //  debugger;
 
         showSideMenuBar(response.data.data);
-        alert("Success:"+response.data.data);
+        // alert("Success:"+response.data.data);
       }else{
         
-        alert("Error:"+response.data.message);
+        // alert("Error:"+response.data.message);
       }
 
     };
@@ -131,15 +134,23 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
           >
             {renderMenuItems(menu.subMenu)}
           </SubMenu>
-        ) : (
+        ) :
+        
+        (
+          menu.pageUrl!=null && menu.pageUrl.length>0 ?
           <MenuItem
             key={menu.mainid}
             icon={<HomeOutlinedIcon />} // Replace with dynamic icons based on menu data
-            onClick={() => console.log(`Navigating to ${menu.pageUrl}`)}
+            onClick={() => {
+              storePageName(menu.title);
+            }}
           >
             { menu.title} {/* Fallback to title if pageName is empty */}
-            <Link to={'/role' || "#"} />
+           
+             
+            <Link to={'/dashboard'+menu.pageUrl} />
           </MenuItem>
+          : null
         )
       );
     useEffect(() => {
@@ -156,14 +167,15 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         display: "flex", // Flex container
         flexDirection: "column", // Vertical layout
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background: "#fff !important",
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
           padding: "5px 35px 5px 20px !important",
-          color: colors.grey[400],
+          fontWeight:'bold',
+          color: '#db4f4a',
         },
         "& .pro-inner-item:hover": {
           color: "#db4f4a !important",
@@ -192,13 +204,22 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
                   ml="15px"
                 >
             
-                  <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  {/* <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcon />
-                  </IconButton>
+                  </IconButton> */}
+                  <Box >
+                  <img
+                    alt="profile-user"
+                    width="100px"
+                    // height="100px"
+                    src={image}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Box>
                 </Box>
               )}
             </MenuItem>
-             
+{/*              
             {!isCollapsed && (
               <Box mb="25px">
                 <Box display="flex" justifyContent="center" alignItems="center">
@@ -224,9 +245,9 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
                   </Typography>
                 </Box>
               </Box>
-            )}
+            )} */}
   
-            <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Box paddingLeft={isCollapsed ? undefined : ""}>
 
             <Menu iconShape="square">
         {menuData.length > 0 ? renderMenuItems(menuData) : <div>No Menu Items</div>}

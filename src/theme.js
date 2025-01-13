@@ -149,7 +149,7 @@ export const themeSettings = (mode) => {
                     }
                 }:{
                     primary: {
-                        main: colors.primary[100],
+                        main: colors.primary[900],
                     },
                     secondary: {
                         main: colors.greenAccent[500],
@@ -172,6 +172,7 @@ export const themeSettings = (mode) => {
             h1: {
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
                 fontSize: 40,
+                colors: colors.grey[500],
             },
             h2: {
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
@@ -188,6 +189,7 @@ export const themeSettings = (mode) => {
             h5: {
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
                 fontSize: 16,
+                color: colors.grey[200],
             },
             h6: {
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
@@ -206,7 +208,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-    const [mode, setMode] =useState("dark");
+    const [mode, setMode] =useState("light");
 
     const colorMode = useMemo(
         () => ({

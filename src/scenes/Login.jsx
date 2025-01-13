@@ -8,7 +8,7 @@ import XIcon from '@mui/icons-material/X';
 import "../css/Login.css"
 import apiClient from "../network/apiClient.js"
 import LogoImage from "../assets/logo.png";
-import {storeUserName, storeDesignation} from "../shared/utils/userDetails.js"
+import {storeUserName, storeDesignation, storeEmail} from "../shared/utils/userDetails.js"
  
   
 const Root = styled.main`
@@ -185,6 +185,8 @@ const Login = () => {
             const token = localStorage.getItem("authToken"); // Replace with your token storage logic
             storeUserName(response.data.data.tokenDetails.name);
             storeDesignation(response.data.data.tokenDetails.empCode);
+            storeEmail(response.data.data.tokenDetails.email);
+
             if (token) {
                     navigate('/dashboard');
             }
