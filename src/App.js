@@ -1,32 +1,42 @@
- import { ColorModeContext, useMode } from "./theme";
- import { redirect, Route ,Routes} from "react-router-dom";
- import { CssBaseline, ThemeProvider } from "@mui/material";  
+import { ColorModeContext, useMode } from "./theme";
+import { Route, Routes } from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import TopBar from "./scenes/global/TopBar";
-import Dashboard from"./scenes/dashboard";
+import Dashboard from "./scenes/dashboard";
+import Role from "./scenes/masters/role";
+import Sidebar from "./scenes/global/SideBar";
 import LandingPage from "./scenes/LandingPage";
-function App() {
-  const [theme, colorMode] = useMode();
- 
-  return (
-<ColorModeContext.Provider value={colorMode}>
-<ThemeProvider theme={theme}>
-    <CssBaseline />
+import { Outlet } from "react-router-dom";
+
+const SidebarLayout = () => (
   <div className="app">
+    <Sidebar />
     <main className="content">
-      {/* <TopBar /> */}
-      {/* <Dashboard/> */}
-      
-      <Routes>
-        <Route path="/" element={<LandingPage />}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
-      </Routes>
-     
+      <Outlet />
     </main>
   </div>
-</ThemeProvider>
-</ColorModeContext.Provider>
+);
 
-   
+function App() {
+  const [theme, colorMode] = useMode();
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes>
+          {/* Routes without sidebar */}
+          <Route path="/" element={<LandingPage />} />
+
+          {/* Routes with sidebar */}
+          <Route element={<SidebarLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/role" element={<Role />} />
+            {/* Add more routes with sidebar here */}
+          </Route>
+        </Routes>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
