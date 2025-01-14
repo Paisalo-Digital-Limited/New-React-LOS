@@ -23,7 +23,7 @@ export const tokens = (mode) => ({
                 100: "#d0d1d5",
                 200: "#a1a4ab",
                 300: "#727681",
-                400: "#fefefe",
+                400: "#b92323",
                 500: "#f11515",
                 600: "#101624",
                 700: "#0c101b",
@@ -131,7 +131,7 @@ export const themeSettings = (mode) => {
     return {
         palette: {
             mode : mode,
-            ...(mode === 'dark'
+            ...(mode === 'light'
                 ?{
                     primary: {
                         main: colors.primary[500],
@@ -160,7 +160,7 @@ export const themeSettings = (mode) => {
                         light: colors.grey[100]
                     },
                     background: {
-                        default: "#f11515",
+                        default: "#ffff",
 
                     },
                 }

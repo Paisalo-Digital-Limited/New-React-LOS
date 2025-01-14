@@ -23,13 +23,17 @@
     "axios": "^1.7.9",
     "formik": "^2.4.6",
     "lottie-react": "^2.4.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-pro-sidebar": "^0.7.1",
     "react-router-dom": "^6.28.1",
     "react-scripts": "5.0.1",
     "sass": "^1.83.1",
     "styled-components": "^6.1.14",
+    "sweetalert2": "^11.15.10",
     "web-vitals": "^2.1.4",
     "yup": "^1.6.1"
   },
@@ -59,5 +63,6 @@
   },
   "devDependencies": {
     "ajv": "^7.2.4"
-  }
+  },
+  "proxy": "https://apiuat.paisalo.in:4015"
 }

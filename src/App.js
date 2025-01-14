@@ -1,29 +1,27 @@
  import { ColorModeContext, useMode } from "./theme";
  import { redirect, Route ,Routes} from "react-router-dom";
  import { CssBaseline, ThemeProvider } from "@mui/material";  
-import TopBar from "./scenes/global/TopBar";
-import Dashboard from"./scenes/dashboard";
-import LandingPage from "./scenes/LandingPage";
+ import TopBar from "./pages/global/TopBar";
+ import Dashboard from "./pages/dashboard";
+ import AddCreator from  "./pages/mastercreator/creator";
+ import VehicleDetails from './pages/vheicle/vheicle';
+ import LandingPage from "./pages/LandingPage";
+ import BranchMaster from "./pages/branchmaster/branchmaster";
 function App() {
   const [theme, colorMode] = useMode();
  
   return (
 <ColorModeContext.Provider value={colorMode}>
-<ThemeProvider theme={theme}>
     <CssBaseline />
-  <div className="app">
-    <main className="content">
-      {/* <TopBar /> */}
-      {/* <Dashboard/> */}
-      
+      {/* <TopBar />
+      <Dashboard/> */}
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/vehicle" element={<VehicleDetails />} />
+        <Route path="/mastercreator" element={<AddCreator/>} />
+        <Route path="/branchmaster" element={<BranchMaster/>} />
       </Routes>
-     
-    </main>
-  </div>
-</ThemeProvider>
 </ColorModeContext.Provider>
 
    
