@@ -30,6 +30,7 @@ apiClient.interceptors.request.use(
 // Interceptor for handling responses and errors
 apiClient.interceptors.response.use(
   (response) => {
+    debugger;
     const { config } = response;
 
     // Check if `checkTokenInResponse` is true and validate token in localStorage

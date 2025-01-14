@@ -8,7 +8,7 @@ import XIcon from '@mui/icons-material/X';
 import "../css/Login.css"
 import apiClient from "../network/apiClient.js"
 import LogoImage from "../assets/logo.png";
-
+import {storeUserName, storeDesignation} from "../shared/utils/userDetails.js"
  
   
 const Root = styled.main`

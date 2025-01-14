@@ -23,8 +23,8 @@ export const tokens = (mode) => ({
                 100: "#d0d1d5",
                 200: "#a1a4ab",
                 300: "#727681",
-                400: "#b92323",
-                500: "#f11515",
+                400: "#fefefe",
+                500: "#d0d1d5",
                 600: "#101624",
                 700: "#0c101b",
                 800: "#080b12",
@@ -160,7 +160,7 @@ export const themeSettings = (mode) => {
                         light: colors.grey[100]
                     },
                     background: {
-                        default: "#ffff",
+                        default: "#d0d1d5",
 
                     },
                 }
@@ -191,7 +191,7 @@ export const themeSettings = (mode) => {
             },
             h6: {
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 14,
+                fontSize: 15,
             },
             
         }
