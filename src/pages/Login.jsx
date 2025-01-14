@@ -182,9 +182,8 @@ const Login = () => {
             alert("Login Success: "+response.data.data.tokenDetails.name);
           //  navigate('/dashboard');
             localStorage.setItem('authToken', response.data.data.tokenDetails.token);
-            const token = localStorage.getItem("authToken"); // Replace with your token storage logic
-            storeUserName(response.data.data.tokenDetails.name);
-            storeDesignation(response.data.data.tokenDetails.empCode);
+            const token = localStorage.getItem("authToken"); 
+
             if (token) {
                     navigate('/dashboard');
             }
