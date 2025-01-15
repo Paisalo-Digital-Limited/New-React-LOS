@@ -18,7 +18,7 @@ const Root = styled.main`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Montserrat', sans-serif;9
     }
 `;
 
@@ -179,7 +179,7 @@ const Login = () => {
           if( response.data.statuscode==200)
           {
             debugger;
-            alert("Login Success: "+response.data.data.tokenDetails.name);
+          
           //  navigate('/dashboard');
             localStorage.setItem('authToken', response.data.data.tokenDetails.token);
             const token = localStorage.getItem("authToken"); 
@@ -188,14 +188,13 @@ const Login = () => {
                     navigate('/dashboard');
             }
           }else{
-            alert("Login Error:"+response.data.message);
+           
 
           }
            
         } catch (error) {
             debugger;
-          console.error("Login Error:", error.message);
-          alert("Login Error:"+ error.message);
+   
         }
       }
 

@@ -312,7 +312,7 @@ const AddCreator = () => {
       <Card
         sx={{
           boxShadow: "none",
-          borderRadius: "7px",
+          borderRadius: "0px",
           mb: "25px",
           padding: { xs: "18px", sm: "20px", lg: "25px" },
         }}
@@ -518,7 +518,7 @@ const AddCreator = () => {
         <Card
           sx={{
             boxShadow: "none",
-            borderRadius: "7px",
+            borderRadius: "0px",
             mb: "25px",
             padding: { xs: "18px", sm: "20px", lg: "25px" },
           }}

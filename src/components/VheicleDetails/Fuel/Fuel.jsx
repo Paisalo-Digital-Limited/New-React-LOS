@@ -183,17 +183,9 @@ const FuelType = () => {
 
   return (
     <>
-      <Card
-        sx={{
-          boxShadow: "none",
-          borderRadius: "7px",
-          mb: "25px",
-          padding: { xs: "18px", sm: "20px", lg: "25px" },
-        }}
-      >
-        <Typography variant="h5" sx={{ marginBottom: "15px", fontWeight: "bold" }}>
-          Fuel Master
-        </Typography>
+           <Typography variant="h5" sx={{ marginBottom: '15px', fontWeight: 'bold', color: 'black' }}>
+           Fuel Master
+           </Typography>
 
         <Grid container spacing={2} alignItems="center" justifyContent="flex-start" sx={{ marginBottom: "5px" }}>
           <Grid item xs={12} md={2} sm={3}>
@@ -270,7 +262,6 @@ const FuelType = () => {
             </DataTable>
           )}
         </Box>
-      </Card>
 
       <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} fullWidth
         sx={{

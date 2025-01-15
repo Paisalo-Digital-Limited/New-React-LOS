@@ -1,11 +1,11 @@
 import { ColorModeContext, useMode } from "./theme";
 import { Route, Routes } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import TopBar from "./scenes/global/TopBar";
-import Dashboard from "./scenes/dashboard";
-import Role from "./scenes/masters/role";
-import Sidebar from "./scenes/global/SideBar";
-import LandingPage from "./scenes/LandingPage";
+import TopBar from "./pages/global/TopBar";
+import Dashboard from "./pages/dashboard/index";
+import Role from "./scenes/masters/role/index";
+import Sidebar from "./pages/global/SideBar";
+import LandingPage from "./pages/LandingPage";
 import { Outlet } from "react-router-dom";
 import AddCreator from  "./pages/mastercreator/creator";
 import VehicleDetails from './pages/vheicle/vheicle';

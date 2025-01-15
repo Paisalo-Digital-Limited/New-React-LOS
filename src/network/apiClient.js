@@ -1,14 +1,13 @@
 import axios from "axios";
 import apiConfig, { setApiMode } from "./apiConfig";
 
-// Automatically set the mode (true for live, false for test)
-setApiMode(false); // Set to `true` for live, `false` for test
 
-// Create the Axios instance with dynamic baseURL and headers
+setApiMode(false); 
+
 const apiClient = axios.create({
-  baseURL: apiConfig.baseURL, // Use the dynamic base URL
+  baseURL: apiConfig.baseURL, 
   headers: {
-    ...apiConfig.headers, // Merge with other headers from apiConfig
+    ...apiConfig.headers, 
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",

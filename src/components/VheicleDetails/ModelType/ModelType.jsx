@@ -216,10 +216,8 @@ const ModelType = () => {
   };
   
   
-  
   const actionTemplate = (rowData) => (
     <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-      {/* Edit Button */}
       <EditIcon
         onClick={() => handleDialogOpen("edit", rowData)}
         sx={{
@@ -251,18 +249,9 @@ const ModelType = () => {
 
   return (
     <>
-      <Card
-        sx={{
-          boxShadow: "none",
-          borderRadius: "7px",
-          mb: "25px",
-          padding: { xs: "18px", sm: "20px", lg: "25px" },
-        }}
-      >
-        <Typography variant="h5" sx={{ marginBottom: "15px", fontWeight: "bold" }}>
-          Model Master
-        </Typography>
-
+    <Typography variant="h5" sx={{ marginBottom: '15px', fontWeight: 'bold', color: 'black' }}>
+    Model Master
+               </Typography>
         <Grid container spacing={2} alignItems="center" justifyContent="flex-start" sx={{ marginBottom: "5px" }}>
           {/* Vehicle Type Dropdown */}
           <Grid item xs={12} md={2} sm={3}>
@@ -383,7 +372,6 @@ const ModelType = () => {
             </Button>
           </Grid>
         </Grid>
-      </Card>
 
       {/* Data Table */}
       <Box className="card" sx={{ marginTop: "50px" }}>

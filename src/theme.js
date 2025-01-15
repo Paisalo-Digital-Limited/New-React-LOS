@@ -124,79 +124,113 @@ export const tokens = (mode) => ({
         }),
 });
 
-//material ui theme setttings
 export const themeSettings = (mode) => {
     const colors = tokens(mode);
 
     return {
         palette: {
-            mode : mode,
-            ...(mode === 'light'
-                ?{
-                    primary: {
-                        main: colors.primary[500],
-                    },
-                    secondary: {
-                        main: colors.greenAccent[500],
-                    },
-                    neutral: {
-                        dark: colors.grey[700],
-                        main: colors.grey[500],
-                        light: colors.grey[100]
-                    },
-                    background: {
-                        default: colors.primary[500],
-                    }
-                }:{
-                    primary: {
-                        main: colors.primary[100],
-                    },
-                    secondary: {
-                        main: colors.greenAccent[500],
-                    },
-                    neutral: {
-                        dark: colors.grey[700],
-                        main: colors.grey[500],
-                        light: colors.grey[100]
-                    },
-                    background: {
-                        default: "#d0d1d5",
-
-                    },
-                }
-            ),
+            mode: mode,
+            ...(mode === "light"
+                ? {
+                      primary: { main: colors.primary[500] },
+                      secondary: { main: colors.greenAccent[500] },
+                      neutral: {
+                          dark: colors.grey[700],
+                          main: colors.grey[500],
+                          light: colors.grey[100],
+                      },
+                      background: {
+                          default: colors.primary[500],
+                          paper: "#fff",
+                      },
+                  }
+                : {
+                      primary: { main: colors.primary[100] },
+                      secondary: { main: colors.greenAccent[500] },
+                      neutral: {
+                          dark: colors.grey[700],
+                          main: colors.grey[500],
+                          light: colors.grey[100],
+                      },
+                      background: {
+                          default: "#d0d1d5",
+                          paper: "#424242",
+                      },
+                  }),
         },
         typography: {
             fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
             fontSize: 12,
-            h1: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 40,
+            lineHeight: 1.5,
+            letterSpacing: "0.02em",
+            h1: { fontFamily: "Source Sans Pro", fontSize: 40 },
+            h2: { fontFamily: "Source Sans Pro", fontSize: 32 },
+            h3: { fontFamily: "Source Sans Pro", fontSize: 24 },
+            h4: { fontFamily: "Source Sans Pro", fontSize: 20 },
+            h5: { fontFamily: "Source Sans Pro", fontSize: 16 },
+            h6: { fontFamily: "Source Sans Pro", fontSize: 15 },
+        },
+        components: {
+            MuiCard: {
+                styleOverrides: {
+                    root: {
+                        backgroundColor: "#ffffff",
+                        color: "#000000",
+                        borderRadius: "7px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                        marginBottom: "25px",
+                        '&:hover': {
+                            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.15)",
+                        },
+                    },
+                },
             },
-            h2: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 32,
+            MuiOutlinedInput: {
+                styleOverrides: {
+                    input: {
+                        '&:-webkit-autofill': {
+                          WebkitBoxShadow: '0 0 0 100px #f3faff inset', 
+                          WebkitTextFillColor: '#474545',             
+                        },
+                    },
+                    root: {
+                        '& .MuiInputBase-input': { color: '#333' },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: '#ddd' },
+                        '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#666' },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#000' },
+                    },
+                },
             },
-            h3: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 24,
+            MuiInputLabel: {
+                styleOverrides: {
+                    root: {
+                        color: '#888',
+                        '&.Mui-focused': { color: '#000' },
+                    },
+                },
             },
-            h4: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 20,
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: "12px",
+                        textTransform: "none",
+                        '&:hover': { boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" },
+                        '&.Mui-disabled': { backgroundColor: '#e0e0e0', color: '#000' },
+                        '&:-webkit-autofill': {
+                            WebkitBoxShadow: '0 0 0 100px #fdfdfd inset', // Override autofill background
+                            WebkitTextFillColor: '#0d0d0d',                // Autofilled text color
+                            caretColor: '#fff',                            // Cursor color
+                            borderRadius: 'inherit',  
+                        },
+                    },
+                },
             },
-            h5: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 16,
-            },
-            h6: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 15,
-            },
-            
-        }
+        },
     };
 };
+
+
+
 
 
 // context for color mode

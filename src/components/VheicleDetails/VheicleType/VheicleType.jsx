@@ -231,7 +231,7 @@ const VehicleType = () => {
   
   
   return (
-    <Card>
+    <>
       <Typography variant="h5" sx={{ marginBottom: '15px', fontWeight: 'bold', color: 'black' }}>
         Vehicle Master
       </Typography>
@@ -241,7 +241,7 @@ const VehicleType = () => {
             label="Vehicle Name"
             variant="outlined"
             fullWidth
-            size="small"
+            size="md"
             value={name}
             onChange={(e) => setName(e.target.value)}
             error={!!nameError}
@@ -253,7 +253,7 @@ const VehicleType = () => {
             label="Description"
             variant="outlined"
             fullWidth
-            size="small"
+            size="md"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             error={!!descriptionError}
@@ -433,7 +433,7 @@ const VehicleType = () => {
   </DialogActions>
 </Dialog>
 
-    </Card>
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import { Route,Routes } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";  
  import TopBar from "../global/TopBar";
 import Sidebar from "../global/SideBar";
-import role from "../masters/role";
+import role from "../../scenes/masters/role";
   
 function Dashboard() {
    const [theme, colorMode] = useMode();

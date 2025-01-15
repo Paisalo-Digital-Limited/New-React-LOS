@@ -3,6 +3,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dialog, TextField, Button, IconButton, Grid, Box } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import styles from './Datatable.module.css';
 import axios from "axios";
 
 const BranchMasterTable = () => {
@@ -16,7 +17,7 @@ const BranchMasterTable = () => {
   const fields = [
     "Code",
     "Name",
-    "Initials",
+    "Initials", 
     "Guarantor Name",
     "Office Address 1",
     "Office Address 2",
@@ -59,7 +60,7 @@ const BranchMasterTable = () => {
   const fetchBranchMasterData = async () => {
     try {
       const response = await axios.get(
-        "https://apiuat.paisalo.in:4015/admin/api/Masters/GetBranchMaster"
+        "http://localhost:5238/api/Masters/GetBranchMasterDetails"
       );
 
       if (response.data.statuscode === 200) {
@@ -77,7 +78,7 @@ const BranchMasterTable = () => {
 
   const handleEdit = (rowData) => {
     setSelectedRow(rowData);
-    setFormValues(rowData); // Pre-fill form with row data
+    setFormValues(rowData);
     setOpenDialog(true);
   };
 
@@ -111,69 +112,160 @@ const BranchMasterTable = () => {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newErrors = {};
+  
+    // Validate each field
     fields.forEach((field) => {
       const error = validateField(field, formValues[field]);
       if (error) {
         newErrors[field] = error;
       }
     });
+  
+    // Check if there are validation errors
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-    console.log("Updated Data:", formValues);
-    setOpenDialog(false);
+  
+    // Map formValues to the API payload structure
+    const payload = {
+      code: formValues["Code"],
+      initials: formValues["Initials"],
+      name: formValues["Name"],
+      gurName: formValues["Guarantor Name"],
+      offAdd1: formValues["Office Address 1"],
+      offAdd2: formValues["Office Address 2"],
+      offAdd3: formValues["Office Address 3"],
+      offCity: formValues["Office City"],
+      offMob1: formValues["Office Mobile 1"],
+      offMob2: formValues["Office Mobile 2"],
+      resAdd1: formValues["Residential Address 1"],
+      resAdd2: formValues["Residential Address 2"],
+      resAdd3: formValues["Residential Address 3"],
+      resCity: formValues["Residential City"],
+      creator: formValues["Creator"],
+      bankBranch: formValues["Bank Branch"],
+      recoveryAuth: formValues["Recovery Auth*"],
+      resPh1: formValues["Registered Phone 1"],
+      resPh2: formValues["Registered Phone 2"],
+      resPh3: formValues["Registered Phone 3"],
+      resMob1: formValues["Registered Mobile 1"],
+      resMob2: formValues["Registered Mobile 2"],
+      perAdd1: formValues["Permanent Address 1"],
+      perAdd2: formValues["Permanent Address 2"],
+      perAdd3: formValues["Permanent Address 3"],
+      perMob1: formValues["Permanent Mobile 1"],
+      perMob2: formValues["Permanent Mobile 2"],
+      perFax: formValues["Permanent Fax"],
+      dob: formValues["DOB"], 
+      age: formValues["Age"],
+      location: formValues["Location"],
+      panNo: formValues["PAN Number"],
+      bankAcNo: formValues["Bank Account No"],
+      bankName: formValues["Bank Name"],
+      otherCase: formValues["Other Case"],
+      remarks: formValues["Remarks"],
+      relation: formValues["Relation"], 
+      userID: "someUserID", 
+      creation_Date: new Date().toISOString(), 
+      last_Mod_UserID: "someLastModUserID", 
+    };
+  
+    try {
+      const response = await axios.post(
+        "https://apiuat.paisalo.in:4015/admin/api/Masters/UpdateBranchMaster",
+        payload
+      );
+  
+      if (response.data.statuscode === 200) {
+        console.log("Update successful:", response.data.message);
+        fetchBranchMasterData(); // Refresh data in the table
+        setOpenDialog(false); // Close the dialog
+      } else {
+        console.error("Update failed:", response.data.message);
+        alert(`Update failed: ${response.data.message}`);
+      }
+    } catch (error) {
+      console.error("Error updating record:", error);
+      alert("Error updating record. Please try again later.");
+    }
   };
+  
+  
 
   return (
     <Box>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <DataTable
-          value={tableData}
-          paginator
-          paginatorPosition="bottom"
-          paginatorTemplate="RowsPerPageDropdown CurrentPageReport PrevPageLink PageLinks NextPageLink"
-          rows={5}
-          rowsPerPageOptions={[5, 10, 20]}
-          responsiveLayout="scroll"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          style={{ textAlign: "left" }}
-        >
-          <Column
-            header="Sr. No."
-            body={(rowData, { rowIndex }) => rowIndex + 1}
-            style={{ width: "100px" }}
-          />
-          <Column field="creatorName" header="Creator Name" />
-          <Column field="branchCode" header="Branch Code" />
-          <Column
-            header="Actions"
-            body={(rowData) => (
-              <IconButton
-                type="button"
-                color="primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleEdit(rowData);
-                }}
-                sx={{
-                  background:
-                    "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-                  color: "#fff",
-                  borderRadius: "12px",
-                }}
-              >
-                <EditIcon sx={{ fontSize: "1.2rem", color: "#fff" }} />
-              </IconButton>
-            )}
-          />
-        </DataTable>
-      )}
+
+
+<DataTable
+  value={tableData}
+  paginator
+  paginatorPosition="bottom"
+  paginatorTemplate="RowsPerPageDropdown CurrentPageReport PrevPageLink PageLinks NextPageLink"
+  rows={5}
+  rowsPerPageOptions={[5, 10, 20]}
+  responsiveLayout="scroll"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  style={{ textAlign: "left" }}
+  loading={loading}
+>
+  {/* Serial Number */}
+  <Column
+    header="S.No."
+    body={(rowData, { rowIndex }) => rowIndex + 1}
+    style={{ width: "100px" }}
+  />
+
+  {/* Specific Columns */}
+  <Column field="Code" header="Code" />
+  <Column field="Name" header="Name" />
+  <Column field="CreatorID" header="CreatorID" />
+  <Column field="Location" header="Location" />
+  <Column
+    field="OffAdd1"
+    header="Address"
+    body={(rowData) =>
+      `${rowData.OffAdd1 || ""} ${rowData.OffAdd2 || ""} ${rowData.OffAdd3 || ""}`
+    }
+  />
+  <Column field="BankAcNo" header="Bank Account No" />
+  <Column field="BankName" header="Bank Name" />
+  <Column field="Code" header="Branch Code" /> {/* Assuming Code is the Branch Code */}
+  <Column
+    field="OffMob1"
+    header="Mobile"
+    body={(rowData) => `${rowData.OffMob1 || ""}, ${rowData.OffMob2 || ""}`}
+  />
+  <Column field="Creation_Date" header="Creation Date" />
+  <Column field="RecoveryAuth" header="Recovery Executive" />
+
+  {/* Actions */}
+  <Column
+    header="Actions"
+    body={(rowData) => (
+      <IconButton
+        type="button"
+        color="primary"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleEdit(rowData);
+        }}
+        sx={{
+          background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+          color: "#fff",
+          borderRadius: "12px",
+        }}
+      >
+        <EditIcon sx={{ fontSize: "1.2rem", color: "#fff" }} />
+      </IconButton>
+    )}
+  />
+</DataTable>
+
+
 
       <Dialog
         open={openDialog}

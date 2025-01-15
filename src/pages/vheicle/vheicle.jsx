@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { Box, Typography, RadioGroup, FormControlLabel, Radio, Paper } from '@mui/material';
+import {
+  Box,
+  Typography,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Paper,
+  Grid,
+} from '@mui/material';
 import VehicleType from '../../components/VheicleDetails/VheicleType/VheicleType';
 import ModelType from '../../components/VheicleDetails/ModelType/ModelType';
 import Brand from '../../components/VheicleDetails/Brand/Brand';
 import Fuel from '../../components/VheicleDetails/Fuel/Fuel';
 
-const VheicleDetails = () => {
+const VehicleDetails = () => {
   const [selectedComponent, setSelectedComponent] = useState('VehicleType');
 
   const renderSelectedComponent = () => {
@@ -23,100 +33,131 @@ const VheicleDetails = () => {
     }
   };
 
-  const radioOptions = [
-    { value: 'VehicleType', label: 'Vehicle Type', color: '#4caf50' },
-    { value: 'ModelType', label: 'Model Type', color: '#ff9800' },
-    { value: 'Brand', label: 'Brand', color: '#2196f3' },
-    { value: 'Fuel', label: 'Fuel', color: '#f44336' },
-  ];
-
   return (
     <Box>
-      <Typography
-        variant="h4"
-        sx={{ marginBottom: '24px', fontWeight: 'bold', color: '#333', textAlign: 'center' }}
-      >
-        Vehicle Details
-      </Typography>
-
       <Paper
         elevation={3}
         sx={{
           padding: '16px',
-          borderRadius: '16px',
+          borderRadius: '0px',
           marginBottom: '24px',
           backgroundColor: '#f8f8f8',
           boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <Typography
-          variant="h6"
-          sx={{ marginBottom: '16px', fontWeight: '600', color: '#555', textAlign: 'center' }}
-        >
-          Select a Category
-        </Typography>
-        <RadioGroup
-          row
-          value={selectedComponent}
-          onChange={(e) => setSelectedComponent(e.target.value)}
-          sx={{
-            display: 'flex',
-            justifyContent: 'start',
-            alignItems: 'center',
-            gap: '16px',
-            flexWrap: 'nowrap', // Prevent wrapping to another row
-          }}
-        >
-          {radioOptions.map(({ value, label, color }) => (
-            <FormControlLabel
-              key={value}
-              value={value}
-              control={
-                <Radio
+        <FormControl fullWidth>
+          <FormLabel
+            id="vehicle-category-radio-group-label"
+            sx={{
+              marginBottom: '16px',
+              fontWeight: '600',
+              fontSize: '1.2rem',
+              color: '#555',
+              textAlign: 'center',
+            }}
+          >
+            Select a Category
+          </FormLabel>
+          <RadioGroup
+            aria-labelledby="vehicle-category-radio-group-label"
+            name="vehicle-category-radio-group"
+            value={selectedComponent}
+            onChange={(e) => setSelectedComponent(e.target.value)}
+            sx={{
+              width: '100%',
+            }}
+          >
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item xs={3} sm={2} md={2} lg={2} xl={2}>
+                <FormControlLabel
+                  value="VehicleType"
+                  control={
+                    <Radio
+                      sx={{
+                        color: '#4caf50',
+                        '&.Mui-checked': { color: '#4caf50' },
+                      }}
+                    />
+                  }
+                  label="Vehicle Type"
                   sx={{
-                    '&.Mui-checked': {
-                      color: color,
-                    },
-                    '&:hover': {
-                      backgroundColor: `${color}22`, // Light background on hover
-                      borderRadius: '50%',
+                    '& .MuiFormControlLabel-label': {
+                      fontSize: '1.2rem',
+                      fontWeight: '600',
+                      color:'#000'
                     },
                   }}
                 />
-              }
-              label={
-                <Box
+              </Grid>
+              <Grid item xs={3} sm={2} md={2} lg={2} xl={2}>
+                <FormControlLabel
+                  value="ModelType"
+                  control={
+                    <Radio
+                      sx={{
+                        color: '#ff9800',
+                        '&.Mui-checked': { color: '#ff9800' },
+                      }}
+                    />
+                  }
+                  label="Model Type"
                   sx={{
-                    padding: '8px 16px',
-                    borderRadius: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: selectedComponent === value ? color : '#f0f0f0',
-                    color: selectedComponent === value ? '#ffffff' : '#333',
-                    fontWeight: 600,
-                    transition: 'all 0.3s',
-                    '&:hover': {
-                      backgroundColor: `${color}33`, 
-                      cursor: 'pointer',
+                    '& .MuiFormControlLabel-label': {
+                      fontSize: '1.2rem',
+                      fontWeight: '600',  color:'#000'
                     },
                   }}
-                >
-                  {label}
-                </Box>
-              }
-              sx={{
-                margin: '0',
-              }}
-            />
-          ))}
-        </RadioGroup>
+                />
+              </Grid>
+              <Grid item xs={3} sm={2} md={2} lg={2} xl={2}>
+                <FormControlLabel
+                  value="Brand"
+                  control={
+                    <Radio
+                      sx={{
+                        color: '#2196f3',
+                        '&.Mui-checked': { color: '#2196f3' },
+                      }}
+                    />
+                  }
+                  label="Brand"
+                  sx={{
+                    '& .MuiFormControlLabel-label': {
+                      fontSize: '1.2rem',
+                      fontWeight: '600',  color:'#000'
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={3} sm={2} md={2} lg={2} xl={2}>
+                <FormControlLabel
+                  value="Fuel"
+                  control={
+                    <Radio
+                      sx={{
+                        color: '#f44336',
+                        '&.Mui-checked': { color: '#f44336' },
+                      }}
+                    />
+                  }
+                  label="Fuel"
+                  sx={{
+                    '& .MuiFormControlLabel-label': {
+                      fontSize: '1.2rem',
+                      fontWeight: '600',  color:'#000'
+                    },
+                  }}
+                />
+              </Grid>
+            </Grid>
+          </RadioGroup>
+        </FormControl>
       </Paper>
 
       <Box
         sx={{
           padding: '24px',
-          borderRadius: '16px',
+          borderRadius: '0px',
           backgroundColor: '#ffffff',
           boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
         }}
@@ -127,4 +168,4 @@ const VheicleDetails = () => {
   );
 };
 
-export default VheicleDetails;
+export default VehicleDetails;

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { TextField, Grid, Button, Card, Typography, Box } from "@mui/material";
+import { TextField, Grid, Button, Card, Typography, Box, Dialog, DialogContent, DialogTitle, DialogActions } from "@mui/material";
 import Swal from "sweetalert2";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { insertBranchMaster } from "../../api/apiBranchMaster";
-import BranchMasterTable from '../../components/BranchMaster/GetBranchMaster'
+import BranchMasterTable from "../../components/BranchMaster/GetBranchMaster";
+import AddIcon from '@mui/icons-material/Add';
 const AddBranchMaster = () => {
   const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +53,7 @@ const AddBranchMaster = () => {
     };
 
     setLoading(true);
-//api call
+
     try {
       const response = await insertBranchMaster(payload);
       const { statuscode, message } = response;
@@ -62,6 +64,7 @@ const AddBranchMaster = () => {
           text: message || "Branch Master inserted successfully!",
         });
         setFormData({}); // Clear form fields
+        setOpenDialog(false); // Close dialog
       } else {
         Swal.fire({
           icon: "error",
@@ -125,93 +128,92 @@ const AddBranchMaster = () => {
       }}
       className="rmui-card"
     >
-      <Typography variant="h5" gutterBottom>
-        Branch Master
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
-          {fields.map((field, index) => {
-            const fieldName = field.replace(/\s+/g, "_").toLowerCase();
-            return (
-              <Grid item xs={12} sm={3} key={index}>
-                <TextField
-                  fullWidth
-                  size="small"
-                  label={field}
-                  name={fieldName}
-                  value={formData[fieldName] || ""}
-                  onChange={handleChange}
-                  variant="outlined"
-                  error={!!errors[fieldName]}
-                  helperText={errors[fieldName] || ""}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-
-<Button
-  type="submit"
+      <Box sx={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "16px" }}>
+      <Button
   variant="contained"
-  disabled={loading}
+  onClick={() => setOpenDialog(true)}
   sx={{
-    marginTop: "20px",
-    background: loading
-      ? "linear-gradient(135deg, #b3b3b3 0%, #e0e0e0 100%)"
-      : "linear-gradient(135deg, #28a745 0%, #218838 100%)",
-    color: "#fff",
-    fontWeight: 600,
-    padding: "10px 20px",
-    borderRadius: "12px",
-    textTransform: "none",
-    transition: "background 0.3s ease",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    "&:hover": {
-      background: "linear-gradient(135deg, #218838 0%, #28a745 100%)",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    backgroundColor: '#0ea5e9',
+    color: '#ffffff',
+    fontWeight: 700,
+    fontSize:'1.5rem',
+    padding: '10px 26px',
+    borderRadius: '12px', 
+    textTransform: 'none',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    '&:hover': {
+      backgroundColor: '#0284c7',
+      boxShadow: '0 6px 8px rgba(0, 0, 0, 0.15)',
     },
-    "&:disabled": {
-      cursor: "not-allowed",
-      opacity: 0.7,
+    '&:active': {
+      backgroundColor: '#0369a1', 
+      boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
     },
   }}
 >
-  {loading ? (
-    <>
-      <span
-        className="spinner"
-        style={{
-          marginRight: "8px",
-          border: "2px solid #fff",
-          borderRadius: "50%",
-          borderTop: "2px solid transparent",
-          width: "16px",
-          height: "16px",
-          animation: "spin 1s linear infinite",
-        }}
-      ></span>
-      Submitting...
-    </>
-  ) : (
-    <>
-      <CheckCircleIcon sx={{ marginRight: "8px", fontSize: "1.2rem" }} />
-      Submit
-    </>
-  )}
+  <AddIcon sx={{ fontSize: '20px' }} /> 
+  Add
 </Button>
+      </Box>
 
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="lg" fullWidth>
+        <DialogTitle  sx={{background:'#fff', color:'#000', borderBottom:'1px solid #666', lineHeight:'0.6', padding:'0px 22px'}}>
+          <h2>Add Branch Master</h2></DialogTitle>
+        <DialogContent sx={{background:'#fff'}}>
+          <form onSubmit={handleSubmit} >
+            <Grid container spacing={2} sx={{marginTop:'2px'}}>
+              {fields.map((field, index) => {
+                const fieldName = field.replace(/\s+/g, "_").toLowerCase();
+                return (
+                  <Grid item xs={12} sm={12} md={4} key={index}>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      label={field}
+                      name={fieldName}
+                      value={formData[fieldName] || ""}
+                      onChange={handleChange}
+                      variant="outlined"
+                      error={!!errors[fieldName]}
+                      helperText={errors[fieldName] || ""}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </form>
+        </DialogContent>
+        <DialogActions sx={{background:'#fff'}}>
+          <Button onClick={() => setOpenDialog(false)} variant="outlined" sx={{ marginRight: "8px", borderRadius:'6px',
+              fontSize:'1rem',  backgroundColor:'#b3b3b3', color:'#000'}}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            disabled={loading}
+            sx={{
+              borderRadius:'6px',
+              fontSize:'1rem',
+              backgroundColor: loading ? "#b3b3b3" : "#28a745",
+              "&:hover": {
+                backgroundColor: loading ? "#b3b3b3" : "#218838",
+              },
+            }}
+          >
+            {loading ? "Submitting..." : "Submit"}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-      </form>
-<Box sx={{marginTop:'30px'}}>
-<BranchMasterTable/>
-</Box>
-      
+      <Box sx={{ marginTop: "30px" }}>
+        <BranchMasterTable />
+      </Box>
     </Card>
-
-
-
   );
 };
 

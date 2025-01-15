@@ -68,11 +68,6 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     return menuHierarchy;
   };
 
-
-
-  
-
-
   const Sidebar = () => {
     const userName = getStoredUserName();
     const designation = getStoredDesignation();
