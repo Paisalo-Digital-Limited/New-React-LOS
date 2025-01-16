@@ -263,52 +263,59 @@ const VehicleType = () => {
         <Grid item xs={12} md={2}>
           <Button
             variant="contained"
-            size="small"
+            size="large"
             type="button"
             onClick={handleSubmit}
-            sx={{
-              padding: '7px 20px',
-              fontSize: '15px',
-              background: 'linear-gradient(135deg, #008000, #008000)',
-              borderRadius: '8px',
-              '&:hover': {
-                background: 'linear-gradient(135deg, #81c783, #4caf50)',
-                transform: 'scale(1.05)',
-              },
-            }}
+            sx={{ bgcolor:'green',  borderRadius:'0px', color:'white',fontWeight:'bold'}}
             startIcon={<CheckBoxIcon />}
           >
-            {loading ? 'Saving...' : 'Submit'}
+            {loading ? 'Saving...' : 'SUBMIT'}
           </Button>
         </Grid>
       </Grid>
 
       {fetchError && <Typography color="error">{fetchError}</Typography>}
-      <Box className="card" sx={{marginTop:'50px'}}>
-        <DataTable
-          value={vehicleTypes}
-          paginator
-          paginatorPosition="bottom"
-          paginatorTemplate="RowsPerPageDropdown CurrentPageReport PrevPageLink PageLinks NextPageLink"
-          rows={5}
-          rowsPerPageOptions={[5, 10, 20]}
-          responsiveLayout="scroll"
-          loading={loading}
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        
-          style={{ textAlign: 'left' }}
-        >
-           <Column
+      <Box className="card" sx={{ marginTop: '10px' }}>
+  <DataTable
+    value={vehicleTypes}
+    paginator
+    paginatorPosition="bottom"
+    paginatorTemplate="RowsPerPageDropdown CurrentPageReport PrevPageLink PageLinks NextPageLink"
+    rows={5}
+    rowsPerPageOptions={[5, 10, 20]}
+    responsiveLayout="scroll"
+    loading={loading}
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    style={{ textAlign: 'left' }}
+  >
+    <Column
       header="Sr. No."
       body={(rowData, { rowIndex }) => first + rowIndex + 1}
       style={{ width: '100px' }}
+      headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }} // Set header background to red
     />
-          <Column field="id" header="ID" />
-          <Column field="name" header="Vehicle Name" />
-          <Column field="description" header="Description" />
-          <Column header="Actions" body={actionTemplate} />
-        </DataTable>
-      </Box>
+    <Column 
+      field="id" 
+      header="ID" 
+      headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }} // Set header background to red
+    />
+    <Column 
+      field="name" 
+      header="Vehicle Name" 
+      headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }} // Set header background to red
+    />
+    <Column 
+      field="description" 
+      header="Description" 
+      headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }} // Set header background to red
+    />
+    <Column 
+      header="Actions" 
+      body={actionTemplate} 
+      headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }} // Set header background to red
+    />
+  </DataTable>
+</Box>
 
       <Dialog
   open={editDialogOpen}
