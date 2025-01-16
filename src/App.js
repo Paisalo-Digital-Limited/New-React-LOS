@@ -14,6 +14,7 @@ import ReadyForAudit from "./pages/audit";
 import NeftDone from "./pages/neft";
 import AddCreator from  "./pages/mastercreator/creator";
 import VehicleDetails from './pages/vheicle/vheicle';
+import PostSanction from './pages/postsanction/postsanction';
 import BranchMaster from "./pages/branchmaster/branchmaster";
 
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/vehicle" element={<VehicleDetails />} />
             <Route path="/mastercreator" element={<AddCreator/>} />
             <Route path="/branchmaster" element={<BranchMaster/>} />
+            <Route path="/postsanction" element={<PostSanction/>} />
             {/* <Route path="/role" element={<Role/>} /> */}
             {/* Add more routes with sidebar here */}
           </Route>
