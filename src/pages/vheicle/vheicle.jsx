@@ -9,6 +9,7 @@ import {
   Radio,
   Paper,
   Grid,
+  Card
 } from '@mui/material';
 import VehicleType from '../../components/VheicleDetails/VheicleType/VheicleType';
 import ModelType from '../../components/VheicleDetails/ModelType/ModelType';
@@ -34,11 +35,12 @@ const VehicleDetails = () => {
   };
 
   return (
-    <Box>
-      <Paper
+    <Box sx={{ p: 2 }}>
+      <Card 
         elevation={3}
         sx={{
           padding: '16px',
+          mb: 2,
           borderRadius: '0px',
           marginBottom: '24px',
           backgroundColor: '#f8f8f8',
@@ -53,7 +55,7 @@ const VehicleDetails = () => {
               fontWeight: '600',
               fontSize: '1.2rem',
               color: '#555',
-              textAlign: 'center',
+              textAlign: 'left',
             }}
           >
             Select a Category
@@ -67,7 +69,7 @@ const VehicleDetails = () => {
               width: '100%',
             }}
           >
-            <Grid container spacing={2} justifyContent="center">
+            <Grid container spacing={2} justifyContent="left">
               <Grid item xs={3} sm={2} md={2} lg={2} xl={2}>
                 <FormControlLabel
                   value="VehicleType"
@@ -82,7 +84,7 @@ const VehicleDetails = () => {
                   label="Vehicle Type"
                   sx={{
                     '& .MuiFormControlLabel-label': {
-                      fontSize: '1.2rem',
+                  
                       fontWeight: '600',
                       color:'#000'
                     },
@@ -103,7 +105,7 @@ const VehicleDetails = () => {
                   label="Model Type"
                   sx={{
                     '& .MuiFormControlLabel-label': {
-                      fontSize: '1.2rem',
+                    
                       fontWeight: '600',  color:'#000'
                     },
                   }}
@@ -123,7 +125,7 @@ const VehicleDetails = () => {
                   label="Brand"
                   sx={{
                     '& .MuiFormControlLabel-label': {
-                      fontSize: '1.2rem',
+                     
                       fontWeight: '600',  color:'#000'
                     },
                   }}
@@ -143,7 +145,7 @@ const VehicleDetails = () => {
                   label="Fuel"
                   sx={{
                     '& .MuiFormControlLabel-label': {
-                      fontSize: '1.2rem',
+                    
                       fontWeight: '600',  color:'#000'
                     },
                   }}
@@ -152,7 +154,7 @@ const VehicleDetails = () => {
             </Grid>
           </RadioGroup>
         </FormControl>
-      </Paper>
+      </Card>
 
       <Box
         sx={{

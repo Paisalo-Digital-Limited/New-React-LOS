@@ -199,19 +199,9 @@ const FuelType = () => {
           <Grid item xs={12} md={2} container alignItems="center">
             <Button
               variant="contained"
-              size="small"
-              sx={{
-                padding: "10px 12px",
-                fontSize: "15px",
-                background: "linear-gradient(135deg, #008000, #008000)",
-                borderRadius: "8px",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                "&:hover": {
-                  background: "linear-gradient(135deg, #81c783, #4caf50)",
-                  boxShadow: "0px 8px 15px rgba(76, 175, 80, 0.4)",
-                  transform: "scale(1.05)",
-                },
-              }}
+               size="large"
+               type="button"
+               sx={{ bgcolor:'green',  borderRadius:'0px', color:'white',fontWeight:'bold'}}
               startIcon={<CheckBoxIcon />}
               onClick={handleSubmit}
               disabled={loading}
@@ -240,11 +230,15 @@ const FuelType = () => {
                 header="Sr. No."
                 body={(rowData, { rowIndex }) => rowIndex + 1}
                 style={{ width: "100px" }}
-              />
-              <Column field="id" header="ID" />
-              <Column field="name" header="Fuel Name" />
-              <Column field="description" header="Description" />
-              <Column header="Actions" body={actionTemplate} />
+                headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }}/>
+              <Column field="id" header="ID"
+                headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }} />
+              <Column field="name" header="Fuel Name" 
+                headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }}/>
+              <Column field="description" header="Description" 
+                headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }}/>
+              <Column header="Actions" body={actionTemplate} 
+                headerStyle={{ backgroundColor: '#ff4c4c', color: 'white' }}/>
             </DataTable>
           )}
         </Box>
