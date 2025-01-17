@@ -105,20 +105,6 @@ const FuelType = () => {
     }
   };
 
-  // const actionTemplate = (rowData) => (
-  //   <EditIcon
-  //     variant="text"
-  //     onClick={() => handleEdit(rowData)}
-  //     sx={{
-  //       fontSize: "24px",
-  //       color: "#1976d2",
-  //       cursor: "pointer",
-  //       "&:hover": { color: "#115293" },
-  //     }}
-  //   >
-   
-    
-  // );
   const toggleFuelType = async (rowData) => {
     const updatedStatus = !rowData.isActive;
   
