@@ -27,8 +27,8 @@ export const fetchBranchMasterDetails = async () => {
         Name: item.name,
         CreatorID: item.creatorID,
         Location: item.location,
-        isActive: item.isActive, 
-        isDeleted: item.isDeleted, 
+        // isActive: item.isActive, 
+        // isDeleted: item.isDeleted, 
         OffAdd1: item.offAdd1,
         OffAdd2: item.offAdd2,
         OffAdd3: item.offAdd3,
@@ -52,15 +52,12 @@ export const fetchBranchMasterDetails = async () => {
 };
 
 
-export const toggleBranchStatus = async (id, params) => {
+export const deleteBranchMaster = async (id, params) => {
   try {
     const response = await apiClient.post(
       `https://apiuat.paisalo.in:4015/admin/api/Masters/DeleteBranchMaster?Id=${id}`,
       params,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
       }
     );
     return response.data;
@@ -78,6 +75,7 @@ export const toggleBranchStatus = async (id, params) => {
 
 export const fetchBranchMasterById = async (id) => {
   try {
+
     const response = await apiClient.get(`https://apiuat.paisalo.in:4015/admin/api/Masters/GetBranchMasterById/?Id=${id}`);
     if (response.data.statuscode === 200 && response.data.data.length > 0) {
       return response.data.data[0]; // Return the branch data object

@@ -8,7 +8,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 // import SearchIcon from "@mui/icons-material/Search";
 import { getStoredUserName ,getStoredDesignation, getStoredEmail} from "../../shared/utils/userDetails";
-import image from "../../assets/satish.png"
+// import image from "../../assets/satish.png"
 
 const TopBar = () => {
     const userName = getStoredUserName();
@@ -82,7 +82,7 @@ const TopBar = () => {
                     alt="profile-user"
                     width="100px"
                     height="100px"
-                    src={image}
+                    // src={image}
                     style={{ cursor: "pointer", borderRadius: "50%" }}
                   />
                 </Box>

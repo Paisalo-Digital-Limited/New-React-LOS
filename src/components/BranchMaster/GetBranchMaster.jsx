@@ -17,7 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Swal from "sweetalert2";
 import {
   fetchBranchMasterDetails,
-  toggleBranchStatus,
+  deleteBranchMaster,
 } from "../../api/apiBranchMaster";
 import { fetchCreatorsApi } from "../../api/apiCreator";
 import { fetchBranchMasterById, updateBranchMaster  } from "../../api/apiBranchMaster"; 
@@ -137,74 +137,7 @@ const handleEdit = async (rowData) => {
   }
 };
 
-  // const handleEdit = async (rowData) => {
-  //   console.log("Row Data with Id:", rowData); // Debugging
-  //   if (!rowData.Id) {
-  //     console.error("Id is missing in rowData");
-  //     alert("Cannot edit: Row data is missing Id");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5238/api/Masters/GetBranchMasterById?Id=${rowData.Id}`
-  //     );
-
-  //     if (response.data.statuscode === 200) {
-  //       const branchData = response.data.data[0];
-
-  //       // Find the creator name from the list of creators
-  //       const matchedCreator = creators.find(
-  //         (creator) => creator.creatorID === branchData.creatorID
-  //       );
-
-  //       const mappedData = {
-  //         Code: branchData.code,
-  //         Name: branchData.name,
-  //         Initials: branchData.initials,
-  //         "Guarantor Name": branchData.gurName,
-  //         "Office Address 1": branchData.offAdd1,
-  //         "Office Address 2": branchData.offAdd2,
-  //         "Office Address 3": branchData.offAdd3,
-  //         "Office City": branchData.offCity,
-  //         "Office Mobile 1": branchData.offMob1,
-  //         "Office Mobile 2": branchData.offMob2,
-  //         "Residential Address 1": branchData.resAdd1,
-  //         "Residential Address 2": branchData.resAdd2,
-  //         "Residential Address 3": branchData.resAdd3,
-  //         CreatorID: branchData.creatorID,
-  //         Creator: matchedCreator ? matchedCreator.creator : "Unknown Creator", // Fallback for null creator
-  //         "Bank Branch": branchData.bankBranch,
-  //         "Recovery Auth*": branchData.recoveryAuth,
-  //         "Residential City": branchData.resCity,
-  //         "Registered Phone 1": branchData.resPh1,
-  //         "Registered Phone 2": branchData.resPh2,
-  //         "Registered Phone 3": branchData.resPh3,
-  //         "Registered Mobile 1": branchData.resMob1,
-  //         "Registered Mobile 2": branchData.resMob2,
-  //         "Permanent Address 1": branchData.perAdd1,
-  //         "Permanent Address 2": branchData.perAdd2,
-  //         "Permanent Address 3": branchData.perAdd3,
-  //         "Permanent Mobile 1": branchData.perMob1,
-  //         "Permanent Mobile 2": branchData.perMob2,
-  //         "Permanent Fax": branchData.perFax,
-  //         DOB: branchData.dob,
-  //         Age: branchData.age,
-  //         Location: branchData.location,
-  //         "PAN Number": branchData.panNo,
-  //         "Bank Account No": branchData.bankAcNo,
-  //         "Bank Name": branchData.bankName,
-  //         "Other Case": branchData.otherCase,
-  //         Remarks: branchData.remarks,
-  //       };
-
-  //       setSelectedRow(rowData);
-  //       setFormValues(mappedData);
-  //       setOpenDialog(true);
-  //     } else {
-  //     }
-  //   } catch (error) {}
-  // };
+ 
   useEffect(() => {
     loadBranchMasterData();
   }, []);
@@ -213,21 +146,27 @@ const handleEdit = async (rowData) => {
   //   setLoading(true);
   //   try {
   //     const data = await fetchBranchMasterDetails();
-  //     setTableData(data);
+  
+  //     // Ensure all rows have isActive = 1
+  //     const updatedData = data.map((row) => ({
+  //       ...row,
+  //       isActive: row.isActive ?? 1, // Default to 1 if isActive is missing
+  //     }));
+  
+  //     setTableData(updatedData);
   //   } catch (error) {
   //     console.error("Error loading branch master data:", error);
   //   } finally {
   //     setLoading(false);
   //   }
   // };
-
-
+  
   const loadBranchMasterData = async () => {
     setLoading(true);
     try {
       const data = await fetchBranchMasterDetails();
   
-      // Ensure all rows have isActive = 1
+      // Ensure all rows have proper isActive values.
       const updatedData = data.map((row) => ({
         ...row,
         isActive: row.isActive ?? 1, // Default to 1 if isActive is missing
@@ -241,6 +180,8 @@ const handleEdit = async (rowData) => {
     }
   };
   
+  
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setSelectedRow(null);
@@ -431,55 +372,47 @@ const handleSave = async () => {
     fetchCreators(); 
   }, []);
 
-  const toggleIsActive = async (rowData) => {
-    if (!rowData?.Id) {
-      Swal.fire("Error", "Invalid record selected. Missing Id.", "error");
-      return;
-    }
-  
-    const updatedStatus = rowData.isActive === 1 ? 0 : 1;
-    const updatedIsDeleted = updatedStatus === 0 ? 1 : 0; 
+  const toggleBranchStatus = async (rowData) => {
+    const updatedStatus = rowData.isActive === 1 ? 0 : 1; // Toggle isActive
   
     // Optimistically update the UI
-    setTableData((prevData) =>
-      prevData.map((item) =>
-        item.Id === rowData.Id
-          ? { ...item, isActive: updatedStatus, isDeleted: updatedIsDeleted }
-          : item
+    setTableData((prev) =>
+      prev.map((branch) =>
+        branch.Id === rowData.Id
+          ? {
+              ...branch,
+              isActive: updatedStatus, // Update isActive only
+            }
+          : branch
       )
     );
   
-    const params = {
-      IsActive: updatedStatus,
-      IsDeleted: updatedIsDeleted,
-      ModifiedBy: "currentUser",
-    };
-  
     try {
-      const response = await toggleBranchStatus(rowData.Id, params);
+      const response = await deleteBranchMaster(rowData.Id); // Update the API call if needed
       if (response.statuscode === 200) {
         Swal.fire(
           "Success",
-          `Branch has been ${updatedStatus === 1 ? "activated" : "deactivated"}.`,
+          `Branch has been ${
+            updatedStatus === 1 ? "activated" : "deactivated"
+          } successfully.`,
           "success"
         );
       } else {
         throw new Error(response.message || "Failed to toggle branch status.");
       }
     } catch (error) {
-      // Rollback UI if API call fails
-      setTableData((prevData) =>
-        prevData.map((item) =>
-          item.Id === rowData.Id
-            ? { ...item, isActive: rowData.isActive, isDeleted: rowData.isDeleted }
-            : item
+      // Rollback UI update if API fails
+      setTableData((prev) =>
+        prev.map((branch) =>
+          branch.Id === rowData.Id
+            ? {
+                ...branch,
+                isActive: rowData.isActive, // Revert to original state
+              }
+            : branch
         )
       );
-      Swal.fire(
-        "Error",
-        error.message || "An error occurred while toggling the status.",
-        "error"
-      );
+      Swal.fire("Error", error.message || "An error occurred.", "error");
     }
   };
   
@@ -487,6 +420,39 @@ const handleSave = async () => {
   
   
 
+  const actionTemplate = (rowData) => (
+    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+      <EditIcon
+        onClick={() => handleEdit(rowData)}
+        sx={{
+          fontSize: "24px",
+          color: "#1976d2",
+          cursor: "pointer",
+          "&:hover": { color: "#115293" },
+        }}
+      />
+   <Switch
+  checked={rowData.isActive === 1} // Check state directly from isActive
+  onChange={() => toggleBranchStatus(rowData)}
+  sx={{
+    "& .MuiSwitch-switchBase.Mui-checked": {
+      color: "#4caf50", // Green for active
+    },
+    "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+      backgroundColor: "#81c784",
+    },
+    "& .MuiSwitch-track": {
+      backgroundColor: rowData.isActive === 1 ? "#81c784" : "#ef9a9a", // Red for inactive
+    },
+  }}
+/>
+
+
+
+    </div>
+  );
+  
+  
   return (
     <Box>
       <DataTable
@@ -530,41 +496,7 @@ const handleSave = async () => {
           }
         />
         <Column field="RecoveryAuth" header="Recovery Executive" />
-        <Column
-  header="Actions"
-  body={(rowData) => (
-    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-      <EditIcon
-        onClick={() => handleEdit(rowData)}
-        sx={{
-          fontSize: "24px",
-          color: "#1976d2",
-          cursor: "pointer",
-          "&:hover": { color: "#115293" },
-        }}
-      />
-      <Switch
-        checked={rowData.isActive === 1}
-        onChange={() => toggleIsActive(rowData)}
-        sx={{
-          "& .MuiSwitch-switchBase.Mui-checked": {
-            color: "#4caf50", // Green for active
-          },
-          "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-            backgroundColor: "#81c784", // Green track for active
-          },
-          "& .MuiSwitch-switchBase": {
-            color: rowData.isActive === 1 ? "#4caf50" : "#f44336", // Green for active, Red for inactive
-          },
-          "& .MuiSwitch-track": {
-            backgroundColor: rowData.isActive === 1 ? "#81c784" : "#ef9a9a", // Green for active, Red for inactive
-          },
-        }}
-      />
-    </div>
-  )}
-/>
-
+  <Column header="Actions" body={actionTemplate} />
       </DataTable>
       <Dialog
         open={openDialog}
